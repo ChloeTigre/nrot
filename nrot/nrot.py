@@ -43,8 +43,6 @@ def nrot_decrypt(cryptogram, key):
     if not valid_key(key):
         raise RuntimeError("Invalid key! Key should be in letterspace")
     ls = Nrot_constants.letterspace
-    len_ls = len(ls)
-    ls += ls # cheap overflow allow
     for idx, char in enumerate(cryptogram):
         rotation_char = key[idx % len(key)]
         rotation_index = ls.index(rotation_char)
