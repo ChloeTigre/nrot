@@ -12,8 +12,8 @@ Ideal for playful encryption. Weak against cryptanalysis.
 
 class Nrot_constants(object):
     letterspace = (
-        [chr(a) for a in range(ord('A'), ord('Z') + 1)] +
         [chr(a) for a in range(ord('a'), ord('z') + 1)] +
+        [chr(a) for a in range(ord('A'), ord('Z') + 1)] +
         [chr(a) for a in range(ord('0'), ord('9') + 1)] +
         [a for a in r''' '".?!:;,@#$%^&*()/\=+-_'''] +
         ['\n'] + ['\r'])
@@ -64,7 +64,10 @@ def test_nrot():
     cupidatat non proident, sunt in culpa qui officia deserunt mollit
     anim id est laborum.'''
     key_b = '75niAXdmJAoksgGDyUaC'
-    assert nrot_decrypt(nrot_encrypt(string_b, key_b), key_b) == string_b
+    cryptogram_b = nrot_encrypt(string_b, key_b)
+    assert nrot_decrypt(cryptogram_b, key_b) == string_b
+    print("Cryptogram b:", cryptogram_b)
+
 
 
 
