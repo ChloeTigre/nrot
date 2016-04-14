@@ -12,9 +12,9 @@ Ideal for playful encryption. Weak against cryptanalysis.
 
 class Nrot_constants(object):
     letterspace = (
+        [chr(a) for a in range(ord('0'), ord('9') + 1)] +
         [chr(a) for a in range(ord('a'), ord('z') + 1)] +
         [chr(a) for a in range(ord('A'), ord('Z') + 1)] +
-        [chr(a) for a in range(ord('0'), ord('9') + 1)] +
         [a for a in r''' '".?!:;,@#$%^&*()/\=+-_'''] +
         ['\n'] + ['\r'])
 
