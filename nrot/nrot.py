@@ -14,9 +14,10 @@ class Nrot_constants(object):
     letterspace = (
         [chr(a) for a in range(ord('0'), ord('9') + 1)] +
         [chr(a) for a in range(ord('a'), ord('z') + 1)] +
-        [chr(a) for a in range(ord('A'), ord('Z') + 1)] +
-        [a for a in r''' '".?!:;,@#$%^&*()/\=+-_'''] +
-        ['\n'] + ['\r'])
+        [chr(a) for a in range(ord('A'), ord('Z') + 1)]
+    )
+
+    immutables = list(' \r\n' + r''''".?!:;,@#$%^&*()/\=+-_''')
 
 
 def valid_key(key):
@@ -30,10 +31,14 @@ def nrot_encrypt(data, key):
     ls = Nrot_constants.letterspace
     ls += ls # cheap overflow allow
     for idx, char in enumerate(data):
+        if char in Nrot_constants.immutables:
+            cryptogram.append(char)
+            continue
         rotation_char = key[idx % len(key)]
         rotation_index = ls.index(rotation_char)
         if char not in ls:
-            char = '_'
+            cryptogram.append('_')
+            continue
         cryptogram.append(ls[ls.index(char) + rotation_index])
     return ''.join(cryptogram)
 
@@ -44,6 +49,9 @@ def nrot_decrypt(cryptogram, key):
         raise RuntimeError("Invalid key! Key should be in letterspace")
     ls = Nrot_constants.letterspace
     for idx, char in enumerate(cryptogram):
+        if char in Nrot_constants.immutables:
+            data.append(char)
+            continue
         rotation_char = key[idx % len(key)]
         rotation_index = ls.index(rotation_char)
         data.append(ls[ls.index(char) - rotation_index])
